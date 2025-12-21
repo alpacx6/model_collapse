@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Plant Back Earth - 지구 재생 프로젝트</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="wrap">
+    <header class="topbar">
+      <div class="brand">
+        <div class="logo">🤖🌱</div>
+        <div class="title">
+          <div class="name">Plant Back Earth</div>
+          <div class="sub">2D 파쿠르 · 지구 재생 프로젝트</div>
+        </div>
+      </div>
+
+      <div class="hud">
+        <div class="hudItem"><span class="k">Stage</span><span id="stage" class="v">1</span></div>
+        <div class="hudItem"><span class="k">HP</span><span class="v"><span id="hp">100</span>/<span id="maxHp">100</span></span></div>
+        <div class="hudItem"><span class="k">O₂</span><span class="v"><span id="o2">50</span>/<span id="maxO2">50</span></span></div>
+        <div class="hudItem"><span class="k">Seeds</span><span id="seedInv" class="v">0</span></div>
+        <div class="hudItem"><span class="k">Planted</span><span class="v"><span id="planted">0</span>/<span id="total">0</span></span></div>
+        <div class="hudItem"><span class="k">Score</span><span id="score" class="v">0</span></div>
+      </div>
+    </header>
+
+    <main class="main">
+      <div class="gameFrame">
+        <canvas id="gameCanvas" width="960" height="540"></canvas>
+        <div id="warnOverlay" class="warnOverlay" aria-hidden="true">
+          <div class="warnChip">
+            <div class="warnDot"></div>
+            <div class="warnTxt">O₂ 부족 · 기체 흡입 불가</div>
+          </div>
+        </div>
+      </div>
+
+      <aside class="side">
+        <div class="panelBox">
+          <div class="panelTitle">보유 카드</div>
+          <div id="ownedCards" class="ownedCards"></div>
+        </div>
+
+        <div class="panelBox">
+          <div class="panelTitle">힌트</div>
+          <div id="hint" class="hint">
+            ←/→ 이동, Space 점프, E 심기, F 물주기, Q 재시작, R 카드발동, Shift 자동대화
+          </div>
+        </div>
+      </aside>
+    </main>
+  </div>
+
+  <!-- 카드 선택 오버레이 -->
+  <div id="cardOverlay" class="overlay">
+    <div class="overlayCard">
+      <div class="overlayTop">
+        <div id="cardTitle" class="overlayTitle">카드 선택</div>
+        <div class="timer">자동 선택 <span id="cardTimer">5.0</span>s</div>
+      </div>
+      <div id="cardRow" class="cardRow"></div>
+      <div class="overlayHint">카드는 스테이지 간/재시작(Q)/사망 재도전에도 유지됩니다.</div>
+    </div>
+  </div>
+
+  <!-- 로딩 화면 -->
+  <div id="loading" class="loading">
+    <div class="loadingBox">
+      <div class="loadingTitle">LOADING…</div>
+      <div id="loadingText" class="loadingText"></div>
+    </div>
+  </div>
+
+  <!-- 블루아카이브 스타일 대화창 -->
+  <div id="dialogue" class="dialogue">
+    <div class="dlgInner">
+      <div class="dlgPortrait">
+        <img id="dlgAvatar" class="avatar" alt="avatar">
+        <div class="avatarGlow"></div>
+      </div>
+
+      <div class="dlgBox">
+        <div class="dlgTop">
+          <div class="namePlate">
+            <span id="dlgName" class="dlgName">???</span>
+            <span id="dlgRole" class="dlgRole">SYSTEM</span>
+          </div>
+
+          <div class="dlgControls">
+            <button id="dlgAutoBtn" class="miniBtn" type="button">AUTO: OFF</button>
+            <button id="dlgSkipBtn" class="miniBtn" type="button">SKIP</button>
+          </div>
+        </div>
+
+        <div class="dlgBubble">
+          <div id="dlgText" class="dlgText"></div>
+          <div class="dlgHint">
+            <span>클릭/Space: 다음</span>
+            <span>Shift: AUTO 토글</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="dlgNext" class="dlgNext">▶</div>
+  </div>
+
+  <script src="game.js"></script>
+</body>
+</html>
