@@ -105,7 +105,7 @@ const plots = [];
 const world = {
   camX: 0,
   length: 3600,
-  maxSpeedBase:8.0,
+  maxSpeedBase:10.0,
   frictionNearGround: 0.84,
 };
 
