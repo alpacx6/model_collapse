@@ -131,7 +131,7 @@ function getMaxO2(){ return player.maxO2Base + player.maxO2Bonus; }
 const SPEAKERS = {
   "주인공": { role:"OPERATOR", color:"#65ffb6", avatar:"images/operator.png" },
   "연구원1": { role:"LAB-01",  color:"#4aa3ff", avatar:"images/researcher1.png" },
-  "연구원2": { role:"LAB-02",  color:"#c66bff", avatar:"r2.png" },
+  "연구원2": { role:"LAB-02",  color:"#c66bff", avatar:"images/researcher2.png" },
 };
 
 let dlgActive = false;
