@@ -945,7 +945,6 @@ player.x += player.vx * k;
 player.y += player.vy * k;
 
 player.x = clamp(player.x, 0, world.length - player.w);
-  player.x = clamp(player.x, 0, world.length - player.w);
 
   player.onGround = false;
   for (const p of platforms){
