@@ -21,168 +21,248 @@
 }
 
 *{ box-sizing:border-box; }
+html,body{ height:100%; }
 body{
   margin:0;
   font-family: system-ui, -apple-system, Segoe UI, Roboto, "Noto Sans KR", Arial, sans-serif;
   background: radial-gradient(1200px 700px at 30% 10%, #162238 0%, var(--bg) 55%);
   color: var(--text);
+  overflow-x:hidden;
 }
-.wrap{ max-width: 1280px; margin: 0 auto; padding: 16px; }
 
+/* =========================
+   레이아웃 (예전 UI 스타일)
+   ========================= */
+.wrap{
+  width:min(1440px, 96vw);
+  margin: 0 auto;
+  padding: 16px;
+}
+
+/* ---- 상단 Topbar ---- */
 .topbar{
-  display:flex; align-items:center; justify-content:space-between;
-  gap:16px; padding: 12px 14px; border-radius: 16px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+  padding: 12px 14px;
+  border-radius: 18px;
   background: linear-gradient(180deg, rgba(18,26,36,.86), rgba(10,14,20,.86));
   box-shadow: var(--shadow);
   border: 1px solid rgba(255,255,255,.06);
 }
-.brand{ display:flex; align-items:center; gap:12px; }
-.logo{ font-size: 28px; }
-.title .name{ font-weight: 900; letter-spacing:.2px; }
-.title .sub{ color: var(--muted); font-size: 12px; margin-top:2px; }
 
-.hud{ display:flex; flex-wrap:wrap; gap:10px; }
-.hudItem{
+.brand{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  min-width: 280px;
+}
+.logo{
+  width:44px; height:44px;
+  border-radius: 14px;
+  display:grid; place-items:center;
   background: rgba(255,255,255,.05);
-  border:1px solid rgba(255,255,255,.07);
-  border-radius: 12px;
-  padding: 8px 10px;
-  display:flex; gap:8px; align-items:center;
-  min-width: 132px;
+  border:1px solid rgba(255,255,255,.08);
+}
+.logo span{ font-size:22px; }
+.titleBlock{ display:flex; flex-direction:column; gap:2px; }
+.titleBlock .name{
+  font-weight: 950;
+  letter-spacing:.2px;
+  font-size: 18px;
+}
+.titleBlock .sub{
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.hud{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  justify-content:flex-end;
+  flex: 1;
+}
+.hudItem{
+  min-width: 130px;
+  border-radius: 14px;
+  padding: 10px 12px;
+  background: rgba(255,255,255,.05);
+  border:1px solid rgba(255,255,255,.08);
+  display:flex;
+  justify-content:space-between;
+  align-items:baseline;
+  gap: 10px;
 }
 .hudItem .k{ color: var(--muted); font-size: 12px; }
-.hudItem .v{ font-weight: 800; }
+.hudItem .v{ font-weight: 950; font-size: 14px; letter-spacing:.2px; }
 
+/* ---- 본문: 캔버스 + 우측 패널 ---- */
 .main{
   margin-top: 14px;
   display:grid;
-  grid-template-columns: 1fr 280px;
+  grid-template-columns: 1fr 340px;
   gap: 14px;
   align-items:start;
 }
 
+/* 캔버스 영역 */
 .gameFrame{
   position: relative;
-}
-#gameCanvas{
-  width:100%;
-  height:auto;
-  border-radius: 16px;
-  background: #0a0f15;
+  border-radius: 18px;
+  overflow:hidden;
   border: 1px solid rgba(255,255,255,.08);
   box-shadow: var(--shadow);
+  background: #0a0f15;
 }
 
-/* O2 경고 오버레이 */
-.warnOverlay{
-  position:absolute; inset: 14px 14px auto auto;
-  pointer-events:none;
-  display:none;
-}
-.warnOverlay.is-on{ display:block; }
-.warnChip{
-  display:flex; align-items:center; gap:10px;
-  padding: 10px 12px;
-  border-radius: 999px;
-  background: rgba(255,60,90,.12);
-  border: 1px solid rgba(255,60,90,.28);
-  backdrop-filter: blur(8px);
-  box-shadow: 0 10px 24px rgba(0,0,0,.25);
-}
-.warnDot{
-  width:10px; height:10px; border-radius:999px;
-  background: rgba(255,80,110,1);
-  box-shadow: 0 0 14px rgba(255,80,110,.55);
-}
-.warnTxt{ font-size: 12px; color: rgba(255,230,240,.9); font-weight: 850; }
+/* 현재 너 HTML은 main.gameArea 안에 canvas만 있는 구조일 수 있어서 같이 커버 */
+.gameArea{ position: relative; }
+.gameArea, .gameFrame{ width:100%; }
 
-.side{ display:flex; flex-direction:column; gap: 14px; }
+#gameCanvas{
+  display:block;
+  width:100%;
+  height:auto;
+  background:#0a0f15;
+}
+
+/* ---- 우측 사이드 패널 ---- */
+.side{
+  display:flex;
+  flex-direction:column;
+  gap: 14px;
+}
 .panelBox{
   background: linear-gradient(180deg, rgba(18,26,36,.86), rgba(10,14,20,.86));
   border: 1px solid rgba(255,255,255,.06);
-  border-radius: 16px;
+  border-radius: 18px;
   box-shadow: var(--shadow);
-  padding: 12px;
+  padding: 14px;
 }
-.panelTitle{ font-weight: 900; margin-bottom: 10px; color: #cfe1ff; }
+.panelTitle{
+  font-weight: 950;
+  margin-bottom: 10px;
+  color: #cfe1ff;
+  letter-spacing:.2px;
+}
 
+/* 네 HTML의 보유카드 영역(id=ownedCards)을 예전처럼 */
 .ownedCards{
-  display:flex; flex-direction:column; gap: 8px;
-  max-height: 290px; overflow:auto; padding-right: 4px;
+  display:flex;
+  flex-direction:column;
+  gap: 10px;
+  max-height: 260px;
+  overflow:auto;
+  padding-right: 4px;
 }
 .ownedCard{
-  display:flex; align-items:center; gap:10px;
+  display:flex;
+  align-items:center;
+  gap:10px;
   background: rgba(255,255,255,.05);
-  border: 1px solid rgba(255,255,255,.07);
-  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 14px;
   padding: 10px;
 }
 .ownedCard .emo{ font-size: 18px; }
-.hint{ color: var(--muted); line-height: 1.5; font-size: 13px; }
 
-/* 카드 선택 오버레이 */
+.hint{
+  color: var(--muted);
+  line-height: 1.6;
+  font-size: 13px;
+}
+
+/* =========================
+   카드 선택 오버레이 (예전 느낌)
+   ========================= */
 .overlay{
-  position:fixed; inset:0;
+  position:fixed;
+  inset:0;
+  display:none;
   place-items:center;
-  background: rgba(0,0,0,.62);
-  backdrop-filter: blur(7px);
+  background: rgba(0,0,0,.55);
+  backdrop-filter: blur(8px);
   z-index: 40;
 }
-.overlayCard{
-  width:min(980px, 94vw);
-  background: linear-gradient(180deg, rgba(18,26,36,.98), rgba(10,14,20,.98));
-  border: 1px solid rgba(255,255,255,.10);
+.overlay.is-open{ display:grid; }
+
+.overlayPanel{
+  width:min(1100px, 95vw);
   border-radius: 18px;
   padding: 16px;
+  background: linear-gradient(180deg, rgba(18,26,36,.95), rgba(10,14,20,.95));
+  border: 1px solid rgba(255,255,255,.10);
   box-shadow: var(--shadow);
 }
-.overlayTop{ display:flex; justify-content:space-between; align-items:center; gap: 10px; }
-.overlayTitle{ font-size: 18px; font-weight: 950; }
-.timer{ color: var(--muted); font-size: 13px; }
+
+.overlayTop{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap: 12px;
+}
+.overlayTitle{
+  font-size: 18px;
+  font-weight: 950;
+  color:#cfe1ff;
+}
+.overlayTimer{
+  color: var(--muted);
+  font-size: 13px;
+}
+
 .cardRow{
+  margin-top: 12px;
   display:grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 12px;
-  margin-top: 12px;
 }
 .card{
   border-radius: 16px;
   padding: 14px;
   cursor:pointer;
-  min-height: 168px;
+  min-height: 150px;
   background: rgba(255,255,255,.05);
-  transition: transform .08s ease, box-shadow .08s ease, border-color .08s ease;
-  border: 3px solid rgba(255,255,255,.10);
+  transition: transform .08s ease, filter .08s ease, box-shadow .08s ease, border-color .08s ease;
+  border: 2px solid rgba(255,255,255,.12);
 }
-.card:hover{ transform: translateY(-2px); }
+.card:hover{ transform: translateY(-2px); filter: brightness(1.05); }
+
 .card .rarity{ font-size: 12px; color: var(--muted); margin-bottom: 6px; }
 .card .name{ font-weight: 950; font-size: 16px; margin-bottom: 6px; }
-.card .emoji{ font-size: 28px; margin-bottom: 8px; }
+.card .emoji{ font-size: 26px; margin-bottom: 8px; }
 .card .desc{ color: #c7d7f5; font-size: 13px; line-height: 1.45; }
-.overlayHint{ margin-top: 10px; color: var(--muted); font-size: 12px; }
 
-/* 희귀도별 테두리 */
+/* 희귀도 테두리(확 띄게) */
 .r-common{ border-color: color-mix(in srgb, var(--c-common) 92%, white 8%); }
 .r-rare{
   border-color: var(--c-rare);
-  box-shadow: 0 0 0 2px rgba(74,163,255,.25) inset, 0 0 20px rgba(74,163,255,.22);
+  box-shadow: 0 0 0 2px rgba(74,163,255,.25) inset, 0 0 20px rgba(74,163,255,.20);
 }
 .r-epic{
   border-color: var(--c-epic);
-  box-shadow: 0 0 0 2px rgba(198,107,255,.28) inset, 0 0 28px rgba(198,107,255,.28);
+  box-shadow: 0 0 0 2px rgba(198,107,255,.28) inset, 0 0 26px rgba(198,107,255,.26);
 }
 .r-legendary{
   border-color: var(--c-legend);
-  box-shadow: 0 0 0 2px rgba(255,59,59,.25) inset, 0 0 34px rgba(255,59,59,.28);
+  box-shadow: 0 0 0 2px rgba(255,59,59,.25) inset, 0 0 32px rgba(255,59,59,.28);
 }
 
-/* 로딩 화면 */
+/* =========================
+   로딩
+   ========================= */
 .loading{
-  position:fixed; inset:0;
+  position:fixed;
+  inset:0;
+  display:none;
   place-items:center;
-  background: rgba(0,0,0,.86);
+  background: rgba(0,0,0,.82);
   z-index: 60;
 }
+.loading.is-open{ display:grid; }
+
 .loadingBox{
   width:min(620px, 92vw);
   padding: 18px;
@@ -192,100 +272,110 @@ body{
   box-shadow: var(--shadow);
   text-align:center;
 }
-.loadingTitle{
-  font-weight: 950;
-  letter-spacing: .8px;
-  margin-bottom: 8px;
+.spinner{
+  width: 34px;
+  height: 34px;
+  border-radius: 999px;
+  border: 3px solid rgba(255,255,255,.18);
+  border-top-color: rgba(83,200,255,.9);
+  margin: 0 auto 10px;
+  animation: spin 1s linear infinite;
 }
+@keyframes spin{ to{ transform: rotate(360deg); } }
 .loadingText{
   color:#c7d7f5;
   line-height:1.6;
   font-size: 14px;
 }
 
-/* 블루아카이브 스타일 대화창 */
-.dialogue{
+/* =========================
+   산소 0 경고 (칩 형태)
+   ========================= */
+.warnOverlay{
   position: fixed;
-  left: 0; right: 0; bottom: 0;
-  padding: 18px 18px 22px;
-  z-index: 55;
-  pointer-events: none;
-}
-.dlgInner{
-  max-width: 1200px;
-  margin: 0 auto;
-  display:grid;
-  grid-template-columns: 150px 1fr;
-  gap: 16px;
-  align-items:end;
-}
-.dlgPortrait{
-  position: relative;
-  width: 150px;
-  height: 150px;
+  top: 18px;
+  right: 18px;
+  z-index: 70;
+  display:none;
   pointer-events:none;
-}
-.avatar{
-  width: 120px; height: 120px;
-  border-radius: 18px;
-  background: linear-gradient(135deg, rgba(83,200,255,.22), rgba(154,123,255,.18));
-  border: 1px solid rgba(255,255,255,.16);
-  box-shadow: 0 12px 26px rgba(0,0,0,.35), 0 0 30px var(--ba-glow);
-  display:grid;
-  place-items:center;
-  backdrop-filter: blur(10px);
-}
-.avatar span{
-  font-size: 34px;
+  padding: 10px 12px;
+  border-radius: 999px;
+  background: rgba(255,60,90,.12);
+  border: 1px solid rgba(255,60,90,.28);
+  backdrop-filter: blur(8px);
+  box-shadow: 0 10px 24px rgba(0,0,0,.25);
+  color: rgba(255,230,240,.92);
   font-weight: 950;
-  color: rgba(255,255,255,.92);
+  font-size: 12px;
 }
-.avatarGlow{
-  position:absolute;
-  inset: -14px;
-  border-radius: 30px;
-  background: radial-gradient(circle at 30% 30%, rgba(83,200,255,.35), transparent 55%),
-              radial-gradient(circle at 70% 70%, rgba(154,123,255,.22), transparent 55%);
-  filter: blur(10px);
-  opacity: .85;
-  z-index: -1;
-}
+.warnOverlay.is-on{ display:block; }
 
-.dlgBox{
-  pointer-events: auto;
-  background: linear-gradient(180deg, var(--ba-panel), var(--ba-panel2));
-  border: 1px solid var(--ba-stroke);
-  border-radius: 18px;
-  box-shadow: 0 16px 34px rgba(0,0,0,.42);
-  overflow:hidden;
+/* =========================
+   대화창 (캔버스 안쪽에 깔리게)
+   - 네 HTML 구조(id=dialogue, dlgTop/dlgText/dlgBottom) 기준
+   ========================= */
+.dialogue{
+  position:absolute;
+  left: 18px;
+  right: 18px;
+  bottom: 18px;
+  z-index: 55;
+  pointer-events:none;
+  display:none;
 }
-.dlgTop{
+.dialogue.is-open{ display:block; }
+
+.dialogue .dlgTop{
   display:flex;
-  justify-content:space-between;
   align-items:center;
+  justify-content:space-between;
   gap: 12px;
   padding: 12px 14px;
-  border-bottom: 1px solid rgba(255,255,255,.08);
+  background: linear-gradient(180deg, var(--ba-panel), var(--ba-panel2));
+  border: 1px solid var(--ba-stroke);
+  border-bottom: 0;
+  border-radius: 18px 18px 0 0;
+  box-shadow: 0 16px 34px rgba(0,0,0,.42);
+  pointer-events:auto;
 }
-.namePlate{
+
+.dlgAvatar{
+  width: 74px;
+  height: 74px;
+  border-radius: 16px;
+  border: 1px solid rgba(255,255,255,.16);
+  background: linear-gradient(135deg, rgba(83,200,255,.22), rgba(154,123,255,.18));
+  box-shadow: 0 12px 26px rgba(0,0,0,.35), 0 0 30px var(--ba-glow);
+  object-fit: cover;
+}
+
+.dlgMeta{
+  flex:1;
   display:flex;
-  align-items:baseline;
-  gap: 10px;
+  flex-direction:column;
+  gap: 4px;
+  min-width: 0;
 }
 .dlgName{
   font-weight: 950;
-  letter-spacing: .2px;
+  letter-spacing:.2px;
+  font-size: 16px;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
 }
 .dlgRole{
   font-size: 11px;
   color: rgba(210,225,255,.62);
+  display:inline-block;
+  width: fit-content;
   padding: 3px 8px;
   border-radius: 999px;
   border: 1px solid rgba(255,255,255,.10);
   background: rgba(255,255,255,.05);
 }
-.dlgControls{ display:flex; gap: 8px; }
-.miniBtn{
+.dlgBtns{ display:flex; gap: 8px; }
+.btn{
   border: 1px solid rgba(255,255,255,.12);
   background: rgba(255,255,255,.06);
   color: rgba(235,245,255,.88);
@@ -295,47 +385,119 @@ body{
   font-size: 12px;
   cursor:pointer;
 }
-.miniBtn:hover{
-  background: rgba(255,255,255,.10);
+.btn:hover{ background: rgba(255,255,255,.10); }
+
+#dlgText.dlgText, .dialogue .dlgText{
+  padding: 14px 14px 10px;
+  background: linear-gradient(180deg, rgba(16,22,34,.72), rgba(10,14,20,.78));
+  border-left: 1px solid var(--ba-stroke);
+  border-right: 1px solid var(--ba-stroke);
+  pointer-events:auto;
+  font-size: 15px;
+  line-height: 1.85;
+  color: rgba(235,245,255,.92);
+  min-height: 78px;
 }
 
-.dlgBubble{
-  padding: 14px 14px 10px;
-}
-.dlgText{
-  font-size: 15px;
-  line-height: 1.8;
-  color: rgba(235,245,255,.92);
-  min-height: 62px;
-}
-.dlgHint{
-  display:flex;
-  justify-content:space-between;
-  margin-top: 10px;
-  font-size: 11px;
-  color: rgba(210,225,255,.55);
+.dialogue .dlgBottom{
+  padding: 10px 14px 0;
+  background: linear-gradient(180deg, rgba(16,22,34,.72), rgba(10,14,20,.78));
+  border: 1px solid var(--ba-stroke);
+  border-top: 0;
+  border-radius: 0 0 18px 18px;
+  pointer-events:auto;
 }
 
 .dlgNext{
-  max-width: 1200px;
-  margin: 0 auto;
   text-align:right;
-  padding-right: 20px;
-  margin-top: 8px;
   color: rgba(180,210,255,.85);
   font-weight: 950;
-  opacity: 0;
-  transform: translateY(6px);
-  transition: .12s ease;
-  pointer-events:none;
+  opacity: .9;
+  user-select:none;
 }
-.dialogue.is-open .dlgNext{
-  opacity: 1;
-  transform: translateY(0);
-}
-.dialogue{ display:none; }
-.dialogue.is-open{ display:block; }
 
-/* 표시/숨김 제어 */
-.overlay, .loading { display: none; }
-.overlay.is-open, .loading.is-open { display: grid; }
+/* =========================
+   네 "좌측 HUD aside" 구조(현재 HTML)도
+   예전처럼 보이게 자동 변환
+   ========================= */
+
+/* 현재 네 HTML: <aside class="hud">... 왼쪽 HUD
+   -> 예전 UI는 "topbar + right side"라서
+   이 HUD는 화면 위쪽 bar처럼 보이게 바꿈 */
+aside.hud{
+  position: static !important;
+  min-height: auto !important;
+  padding: 0 !important;
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+/* 너 HTML의 게임 레이아웃을 예전처럼: HUD는 위, 우측 패널 따로 */
+.wrap > aside.hud{
+  grid-column: 1 / -1;
+}
+
+/* 너 HTML이 wrap 안에 main.gameArea만 있을 때, main 레이아웃 흉내 */
+.wrap{
+  display:block;
+}
+.wrap > main.gameArea{
+  margin-top: 14px;
+  display:grid;
+  grid-template-columns: 1fr 340px;
+  gap: 14px;
+  align-items:start;
+}
+
+/* canvas는 좌측 큰 박스처럼 */
+.wrap > main.gameArea #gameCanvas{
+  border-radius: 18px;
+  border: 1px solid rgba(255,255,255,.08);
+  box-shadow: var(--shadow);
+}
+
+/* 우측 패널 느낌: ownedCards, hint를 오른쪽으로 밀기 */
+.wrap > main.gameArea #ownedCards,
+.wrap > main.gameArea #hint{
+  /* 그대로 두면 캔버스 밑에 붙을 수 있어서 */
+}
+
+/* 너 HTML의 #ownedCards / #hint / stageRuleOverlay를 우측 패널 박스처럼 보이게 */
+.cardsTitle, .hintTitle{ margin-top: 14px; }
+#ownedCards.ownedCards,
+#hint.hint,
+#stageRuleOverlay.stageRule{
+  border-radius: 18px;
+}
+
+/* 대화창이 캔버스 안쪽에 떠야 하므로, gameArea를 relative */
+.wrap > main.gameArea{
+  position: relative;
+}
+.wrap > main.gameArea #dialogue{
+  position: absolute;
+  left: 18px;
+  right: 18px;
+  bottom: 18px;
+}
+
+/* =========================
+   반응형
+   ========================= */
+@media (max-width: 1100px){
+  .main{
+    grid-template-columns: 1fr;
+  }
+  .side{ order: 2; }
+  .cardRow{ grid-template-columns: 1fr; }
+  .hudItem{ min-width: 120px; }
+  .wrap > main.gameArea{
+    grid-template-columns: 1fr;
+  }
+  .dialogue{
+    left: 10px;
+    right: 10px;
+    bottom: 10px;
+  }
+}
